@@ -44,7 +44,7 @@ def dl_extract_hourly_data():
 	except:
 		pass
 
-	for x in range(3):
+	for x in range(5):
 
 		date_time_desc = current_datetime - timedelta(days = x+1)
 		date_time_desc_formatted = datetime.strftime(date_time_desc, "%Y-%m-%d")
@@ -84,19 +84,22 @@ Binance Klines Header CSV:
 '''
 
 '''
-1) Append all CSV data into one sheet.
+1) Append all CSV data into one sheet. (DONE)
 2) Sort column A (Unix Epoch timestamp) -> Earliest to latest (Ascending)
 3) Column A into custom format (Date + time)
-5) Collect data from first moons, every cycle = 14 days? (Double check TV)
+5) Collect data from first moons, every cycle 
+	= 29.530588853 days (https://www.tradingview.com/script/yvDyq0pv-Moon-Phases-Strategy-LUX/) - 1 day = 86,400 seconds
+	= 2,551,442.876899 seconds
 4) Insert extra column
 	Column Name: New Moon/Full Moon
 	Values: Sell/Buy
 5) Based on Moon cycle, fill in Sell/Buy on each new cycle.
-6) Calculate total profits if an individual were to buy/sell x hours after each cycle. Determine average.
+6) Also calculate during bear/bull, effects of inverse trading (Instead of buying on new moon, sell on new moon instead)
+7) Calculate total profits if an individual were to buy/sell x hours after each cycle. Determine average.
 '''
-#====
-#1
-#====
+#========================================
+#1) Append all hourly CSV data into one sheet.
+#========================================
 def concat_csv():
 	print ("\nDownload Completed. Combining all CSVs into \"Combined_csv.csv\"")
 	os.chdir(curr_dir + '\\Downloaded_Data')
@@ -109,7 +112,7 @@ def concat_csv():
 	df.to_csv("Combined.csv", index=False)
 	
 #====================
-#Functions
+#Function calls
 #====================
 dl_extract_hourly_data()
 concat_csv()
